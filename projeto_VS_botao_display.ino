@@ -1,4 +1,6 @@
-
+/* Código desenvolvido mais para consolidar meu conhecimento no "Front-end" do arduino.
+   Contém 3 janelas, com marcador de janelas e ajustador de casas decimais.
+*/
 
 #include <U8glib.h>
 U8GLIB_ST7920_128X64_1X u8g(4, 5, 6, 7); //Enable, RW, RS, RESET
