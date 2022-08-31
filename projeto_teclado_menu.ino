@@ -1,3 +1,10 @@
+/* Código desenvolvido para um teclado de calibração, sem tela de confirmação(usado na Assistência Técnica). Display = 128x64
+   Salva os valores na EEPROM quando apertar o "Enter".
+   Os botões "+" e "-" altera o valor de calibração a ser salvo.
+   O botão "Menu" altera as telas(Tela cliente, Tela de calibração 1, Tela de calibração 2, Tela de calibração 3 e Tela de calibração 4. (volta a 1ª tela com mais um click)
+*/
+
+
 #include<ADS1115.h>
 ADS1115 adc0 (ADS1115_DEFAULT_ADDRESS);
 #include <Wire.h>
@@ -42,7 +49,7 @@ int value2 = EEPROM.read(address2) ;
 int value3 = EEPROM.read(address3) ;
 int value4 = EEPROM.read(address4) ;
 
-void (*funcReset)() = 0 ; //========== Função que "aperta o reset". ==========
+void (*funcReset)() = 0 ; //========== Função que "aperta o reset" (Ele só atualizava a EEPROM quando resetava). ==========
 
 void u8g_prepare() //========== Prepara a tela. ==========
 { 
