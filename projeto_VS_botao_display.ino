@@ -1,4 +1,5 @@
-/* Código desenvolvido mais para consolidar meu conhecimento no "Front-end" do arduino.
+/* Autor: Victor A. Sutto.
+   Código desenvolvido mais para consolidar meu conhecimento no "Front-end" do arduino.
    Contém 3 janelas, com marcador de janelas e ajustador de casas decimais.
 */
 
