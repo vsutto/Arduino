@@ -1,3 +1,6 @@
+// Autor: Victor A. Sutto
+// Código do jogo "Genius" desenvolvido junto ao curso da Alura.
+
 #define LED_VERDE 2
 #define LED_AMARELO 3
 #define LED_VERMELHO 4
