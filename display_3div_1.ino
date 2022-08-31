@@ -1,51 +1,53 @@
+// Autor: Victor A. Sutto.
+// Código desenvolvido pra painel de medição de 3 gases.
+
+
 #include <ADS1115.h>
 ADS1115 adc0(ADS1115_DEFAULT_ADDRESS);
-
-
 
 #include <U8glib.h>
 U8GLIB_ST7920_128X64_1X u8g(4, 5, 6, 7); //Enable, RW, RS, RESET
 
 // =========== colocar valores aqui ==========================================================================================================
 
-float zeroVoltsO2 =   1;  // valor para O2 - 4mA
-float maxVoltsO2  =  4720.0 ;  // valor para 100%       - 20mA
+float zeroVoltsG1 =   1;  // valor para G1 - 4mA
+float maxVoltsG1  =  4720.0 ;  // valor para 100%       - 20mA
 
 
-float zeroVoltsCO =   1;  // valor para CO - 4mA
-float maxVoltsCO  =  4720.0 ;  // valor para 100%       - 20mA
+float zeroVoltsG2 =   1;  // valor para G2 - 4mA
+float maxVoltsG2  =  4720.0 ;  // valor para 100%       - 20mA
 
 
-float zeroVoltsCO2 =   1;  // valor para CO2 - 4mA
-float maxVoltsCO2  =  4720.0 ;  // valor para 100%       - 20mA
-
-//============================================================================================================================================
-float valminO2  =   0.00 ;
-float valmaxO2  = 100.00 ;
-float convO2    =   0.00 ;
-float contaO2   =   0.00 ;
-float indicaO2  =   0.00 ;
-
-
-float valminCO  =   0.00 ;
-float valmaxCO  = 100.00 ;
-float convCO    =   0.00 ;
-float contaCO   =   0.00 ;
-float indicaCO  =   0.00 ;
-
-
-float valminCO2  =   0.00 ;
-float valmaxCO2  = 1000.00;
-float convCO2    =   0.00 ;
-float contaCO2   =   0.00 ;
-float indicaCO2  =   0.00 ;
-
+float zeroVoltsG3 =   1;  // valor para G3 - 4mA
+float maxVoltsG3  =  4720.0 ;  // valor para 100%       - 20mA
 
 //============================================================================================================================================
+float valminG1  =   0.00 ;
+float valmaxG1  = 100.00 ;
+float convG1    =   0.00 ;
+float contaG1   =   0.00 ;
+float indicaG1  =   0.00 ;
 
-float O2  =  0.0 ; //========== ta arredondando as casas 
-float CO  =  0.00 ;
-float CO2 =  0 ;
+
+float valminG2  =   0.00 ;
+float valmaxG2  = 100.00 ;
+float convG2    =   0.00 ;
+float contaG2   =   0.00 ;
+float indicaG2  =   0.00 ;
+
+
+float valminG3  =   0.00 ;
+float valmaxG3  = 1000.00;
+float convG3    =   0.00 ;
+float contaG3   =   0.00 ;
+float indicaG3  =   0.00 ;
+
+
+//============================================================================================================================================
+
+float G1  =  0.0 ; //========== ta arredondando as casas 
+float G2  =  0.00 ;
+float G3 =  0 ;
 
   
 void u8g_prepare() // prepara o display ======================================================================================================
@@ -63,9 +65,9 @@ void u8g_Tela() // formata a Tela
   
   u8g.drawRFrame(0,0,128,64,3); // moldura
 
-  u8g.drawStr( 14, 17, "O   :             %")  ;
-  u8g.drawStr( 9, 38 , "CO :           ppm" )  ;
-  u8g.drawStr( 5, 59 , "CO  :           ppm" ) ;
+  u8g.drawStr( 14, 17, "G1   :             %")  ;
+  u8g.drawStr( 9, 38 , "G2 :           ppm" )  ;
+  u8g.drawStr( 5, 59 , "G3  :           ppm" ) ;
 
  /*
   u8g.drawLine(0,21,128,21);
@@ -77,50 +79,50 @@ void u8g_Tela() // formata a Tela
   
 
 
-//=============== variavel O2 ================================================================================================================ 
+//=============== variavel G1 ================================================================================================================ 
   
-  if (O2 >= 0 && O2 < 9.95) {
+  if (G1 >= 0 && G1 < 9.95) {
     u8g.setPrintPos(60,17);
-    u8g.print(O2,1);
+    u8g.print(G1,1);
   } else {
-    (O2 > 10 && O2 < 100); {
+    (G1 > 10 && G1 < 100); {
     u8g.setPrintPos(50,17);
-    u8g.print(O2,1);
+    u8g.print(G1,1);
   }
  }
 
-//=============== variavel CO ================================================================================================================
+//=============== variavel G2 ================================================================================================================
        
-  if (CO >= 0 && CO < 9.95) {
+  if (G2 >= 0 && G2 < 9.95) {
     u8g.setPrintPos(60,38);
-    u8g.print(CO,1);
+    u8g.print(G2,1);
  } else {
-     (CO > 9.5 && CO < 100); {
+     (G2 > 9.5 && G2 < 100); {
     u8g.setPrintPos(50,38);
-    u8g.print(CO,1);
+    u8g.print(G2,1);
  }
 }
 
-//=============== variavel CO2 ===============================================================================================================
+//=============== variavel G3 ===============================================================================================================
       
-  if (CO2 >= 0 && CO2 < 9.5) {
+  if (G3 >= 0 && G3 < 9.5) {
     u8g.setPrintPos(75,59);
-    u8g.print(CO2,0);
+    u8g.print(G3,0);
 } 
     
-  if (CO2 > 9.5 && CO2 < 99.5) {
+  if (G3 > 9.5 && G3 < 99.5) {
     u8g.setPrintPos(65,59);
-    u8g.print(CO2,0);
+    u8g.print(G3,0);
 } 
         
-  if (CO2 > 99.5 && CO2 < 999.5) {
+  if (G3 > 99.5 && G3 < 999.5) {
     u8g.setPrintPos(55,60);
-    u8g.print(CO2,0);
+    u8g.print(G3,0);
 }
  
-   if  (CO2 >= 999.5 ){
+   if  (G3 >= 999.5 ){
     u8g.setPrintPos(45,60);
-    u8g.print(CO2,0);
+    u8g.print(G3,0);
 }  
 
 //========== numeros pequenos ==========
@@ -160,106 +162,106 @@ void loop() {
 }
   while( u8g.nextPage());
 
-  O2 = contaO2   ;
-  CO = contaCO   ;
-  CO2 = contaCO2 ;
+  G1 = contaG1  ;
+  G2 = contaG2  ;
+  G3 = contaG3  ;
   
   
 //========== limite das variaveis ============================================================================================================
   
-  if (O2 > 30.0) {
-    O2 = 30.0;
+  if (G1 > 30.0) {
+    G1 = 30.0;
   }
 
-  if (CO > 20) {
-    CO = 20;
+  if (G2 > 20) {
+    G2 = 20;
   }
 
-  if (CO2 > 1000) {
-    CO2 = 1000;
+  if (G3 > 1000) {
+    G3 = 1000;
   }
 
 
   //========== limite dos negativos das variaveis ==============================================================================================
  
-  if (O2 < 0) {
-    O2 = 0;
+  if (G1 < 0) {
+    G1 = 0;
   }
 
-  if (CO < 0) {
-    CO = 0;
+  if (G2 < 0) {
+    G2 = 0;
   }
 
-  if (CO2 < 0) {
-    CO2 = 0;
+  if (G3 < 0) {
+    G3 = 0;
   }
 
-  //========== O2 contas =======================================================================================================================
+  //========== G1 contas =======================================================================================================================
   
   adc0.setMultiplexer(ADS1115_MUX_P0_NG);
   adc0.getConversion();
   adc0.setRate(ADS1115_RATE_8);
-  convO2 = adc0.getMilliVolts();
+  convG1 = adc0.getMilliVolts();
   
-  contaO2 = ((( convO2 - zeroVoltsO2 ) * ( valmaxO2 - valminO2 )) / ( maxVoltsO2 - zeroVoltsO2 )) + valminO2 ;
+  contaG1 = ((( convG1 - zeroVoltsG1 ) * ( valmaxG1 - valminG1 )) / ( maxVoltsG1 - zeroVoltsG1 )) + valminG1 ;
  
-  if (contaO2 <= 0.0)
-    indicaO2 = 0.0;
-    else if (contaO2 >= 99.9)
-    indicaO2 = 99.9;
+  if (contaG1 <= 0.0)
+    indicaG1 = 0.0;
+    else if (contaG1 >= 99.9)
+    indicaG1 = 99.9;
           else
-    indicaO2 = contaO2;
+    indicaG1 = contaG1;
 
-//========== CO contas ==========
+//========== G2 contas ==========
   adc0.setMultiplexer(ADS1115_MUX_P0_NG);
   adc0.getConversion();
   adc0.setRate(ADS1115_RATE_8);
-  convCO = adc0.getMilliVolts();
+  convG2 = adc0.getMilliVolts();
 
-  contaCO = ((( convCO - zeroVoltsCO ) * ( valmaxCO - valminCO )) / ( maxVoltsCO - zeroVoltsCO )) + valminCO ;
+  contaG2 = ((( convG2 - zeroVoltsG2 ) * ( valmaxG2 - valminG2 )) / ( maxVoltsG2 - zeroVoltsG2 )) + valminG2 ;
  
-  if (contaCO <= 0.0)
-    indicaCO = 0.0;
-    else if (contaCO >= 99.9)
-    indicaCO = 99.9;
+  if (contaG2 <= 0.0)
+    indicaG2 = 0.0;
+    else if (contaG2 >= 99.9)
+    indicaG2 = 99.9;
           else
-    indicaCO = contaCO;
+    indicaG2 = contaG2;
 
-//========== CO2 contas ==========
+//========== G3 contas ==========
   adc0.setMultiplexer(ADS1115_MUX_P0_NG);
   adc0.getConversion();
   adc0.setRate(ADS1115_RATE_8);
-  convCO2 = adc0.getMilliVolts();
+  convG3 = adc0.getMilliVolts();
 
 
-  contaCO2 = ((( convCO2 - zeroVoltsCO2 ) * ( valmaxCO2 - valminCO2 )) / ( maxVoltsCO2 - zeroVoltsCO2 )) + valminCO2 ;
+  contaG3 = ((( convG3 - zeroVoltsG3 ) * ( valmaxG3 - valminG3 )) / ( maxVoltsG3 - zeroVoltsG3 )) + valminG3 ;
  
-  if (contaCO2 <= 0.0)
-    indicaCO2 = 0.0;
-    else if (contaCO2 >= 99.9)
-    indicaCO2 = 99.9;
+  if (contaG3 <= 0.0)
+    indicaG3 = 0.0;
+    else if (contaG3 >= 99.9)
+    indicaG3 = 99.9;
           else
-    indicaCO2 = contaCO2;
+    indicaG3 = contaG3;
 
 //========== X contas ==========
 
 
     
-  Serial.print("Valor O2 = ")  ; Serial.println(convO2,6)  ;
-  Serial.print("conta O2 = ")  ; Serial.println(contaO2) ;
-  Serial.print("Indica O2 = ") ; Serial.println(indicaO2);
+  Serial.print("Valor G1 = ")  ; Serial.println(convG1,6)  ;
+  Serial.print("conta G1 = ")  ; Serial.println(contaG1) ;
+  Serial.print("Indica G1 = ") ; Serial.println(indicaG1);
   Serial.println();
   Serial.println();
   
-  Serial.print("Valor CO = ")  ; Serial.println(convCO,6)  ;
-  Serial.print("conta CO = ")  ; Serial.println(contaCO) ;
-  Serial.print("Indica CO = ") ; Serial.println(indicaCO);
+  Serial.print("Valor G2 = ")  ; Serial.println(convG2,6)  ;
+  Serial.print("conta G2 = ")  ; Serial.println(contaG2) ;
+  Serial.print("Indica G2 = ") ; Serial.println(indicaG2);
   Serial.println();
   Serial.println();
   
-  Serial.print("Valor CO2 = ")  ; Serial.println(convCO2,6)  ;
-  Serial.print("conta CO2 = ")  ; Serial.println(contaCO2) ;
-  Serial.print("Indica CO2 = ") ; Serial.println(indicaCO2);
+  Serial.print("Valor G3 = ")  ; Serial.println(convG3,6)  ;
+  Serial.print("conta G3 = ")  ; Serial.println(contaG3) ;
+  Serial.print("Indica G3 = ") ; Serial.println(indicaG3);
   Serial.println();
   Serial.println();
 
