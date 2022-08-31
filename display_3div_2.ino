@@ -1,3 +1,6 @@
+// Autor: Victor A. Sutto.
+// Aparelho de 3 gases (ajustar as casas. Coloquei nomes simbólicos (G1, G2, G3)). 
+
 #include <U8glib.h>
 U8GLIB_ST7920_128X64_1X u8g(4, 5, 6, 7); //Enable, RW, RS, RESET
 
@@ -6,40 +9,40 @@ ADS1115 adc0(ADS1115_DEFAULT_ADDRESS);
 
 // =========== colocar valores aqui ====================
 
-float zeroVoltsSO2 =   1 ;  // valor para SO2 - 4mA
-float maxVoltsSO2  =  4730.0 ;  // valor para 100%       - 20mA
+float zeroVoltsG1 =   1 ;  // valor para G1 - 4mA
+float maxVoltsG1  =  4730.0 ;  // valor para 100%       - 20mA
 
-float zeroVoltsVOC =   1 ;  // valor para VOC - 4mA
-float maxVoltsVOC  =  4730.0 ;  // valor para 100%       - 20mA
+float zeroVoltsG2 =   1 ;  // valor para G2 - 4mA
+float maxVoltsG2  =  4730.0 ;  // valor para 100%       - 20mA
 
-float zeroVoltsNOx =   1 ;  // valor para NOx - 4mA
-float maxVoltsNOx  =  4730.0 ;  // valor para 100%       - 20mA
+float zeroVoltsG3 =   1 ;  // valor para G3 - 4mA
+float maxVoltsG3  =  4730.0 ;  // valor para 100%       - 20mA
 
 //======================================================
 
-float valminSO2  =   0.00 ;
-float valmaxSO2  = 100.00 ;
-float convSO2    =   0.00 ;
-float contaSO2   =   0.00 ;
-float indicaSO2  =   0.00 ;
+float valminG1  =   0.00 ;
+float valmaxG1  = 100.00 ;
+float convG1    =   0.00 ;
+float contaG1   =   0.00 ;
+float indicaG1  =   0.00 ;
 
-float valminVOC  =   0.00 ;
-float valmaxVOC  = 100.00 ;
-float convVOC    =   0.00 ;
-float contaVOC   =   0.00 ;
-float indicaVOC  =   0.00 ;
+float valminG2  =   0.00 ;
+float valmaxG2  = 100.00 ;
+float convG2    =   0.00 ;
+float contaG2   =   0.00 ;
+float indicaG2  =   0.00 ;
 
-float valminNOx  =   0.00 ;
-float valmaxNOx  = 100.00 ;
-float convNOx    =   0.00 ;
-float contaNOx   =   0.00 ;
-float indicaNOx  =   0.00 ;
+float valminG3  =   0.00 ;
+float valmaxG3  = 100.00 ;
+float convG3    =   0.00 ;
+float contaG3   =   0.00 ;
+float indicaG3  =   0.00 ;
 
 
 
-float SO2 = 0.00 ;
-float VOC = 0.00 ;
-float NOx = 0.00 ;
+float G1 = 0.00 ;
+float G2 = 0.00 ;
+float G3 = 0.00 ;
 
 void u8g_prepare() // prepara o display =======================================================================================================
 {
@@ -55,9 +58,9 @@ void u8g_Tela() // formata a Tela
 {   
   u8g.drawRFrame(0,0,128,64,3); // moldura
 
-  u8g.drawStr( 10, 17, "SO  :          ppm");
-  u8g.drawStr( 3, 38 , "VOC:          ppm" );
-  u8g.drawStr( 5, 59 , "NOx:          ppm" );
+  u8g.drawStr( 10, 17, "G1  :          ppm");
+  u8g.drawStr( 3, 38 , "G2:          ppm" );
+  u8g.drawStr( 5, 59 , "G3:          ppm" );
 
 
   /*
@@ -69,34 +72,34 @@ void u8g_Tela() // formata a Tela
  */
 
 
-//=============== posicao das casas SO2 ================================================================================================================
+//=============== posicao das casas G1  ================================================================================================================
   
-  if (SO2 >= 0 && SO2 < 9.5){ 
+  if (G1 >= 0 && G1 < 9.5){ 
     u8g.setPrintPos(75,17);
-    u8g.print(SO2,0);
+    u8g.print(G1,0);
   }else{ 
     u8g.setPrintPos(65,17);
-    u8g.print(SO2,0);
+    u8g.print(G1,0);
 }  
 
-//=============== posicao das casas VOC ===============================================================================================================
+//=============== posicao das casas G2 ===============================================================================================================
 
-  if (VOC >= 0 && VOC < 9.5) {
+  if (G2 >= 0 && G2 < 9.5) {
     u8g.setPrintPos(75,38);
-    u8g.print(VOC,0);
+    u8g.print(G2,0);
   }else{ 
     u8g.setPrintPos(65,38);
-    u8g.print(VOC,0);
+    u8g.print(G2,0);
 } 
       
-//=============== posicao das casas NOx ===============================================================================================================
+//=============== posicao das casas G3 ===============================================================================================================
  
-  if (NOx >= 0 && NOx < 9.5) {
+  if (G3 >= 0 && G3 < 9.5) {
       u8g.setPrintPos(75,59);
-      u8g.print(NOx,0);
+      u8g.print(G3,0);
    } else {
       u8g.setPrintPos(65,59);
-      u8g.print(NOx,0);
+      u8g.print(G3,0);
   }     
 //=============== numeros pequenos ===========================================================================================================
    
@@ -133,90 +136,90 @@ void loop() {
     while( u8g.nextPage());
 
 
-     SO2 = contaSO2 ;
-     VOC = contaVOC ;
-     NOx = contaNOx ;
+     G1 = contaG1 ;
+     G2 = contaG2 ;
+     G3 = contaG3 ;
 
 //========== limite das variaveis ============================================================================================================
-  if (SO2 > 50) 
-    SO2 = 50;
-  if (VOC > 50) 
-    VOC = 50;
-  if (NOx > 20) 
-    NOx = 20;
+  if (G1 > 50) 
+    G1 = 50;
+  if (G2 > 50) 
+    G2 = 50;
+  if (G3 > 20) 
+    G3 = 20;
     
 //========== limite negativos das variaveis ==============================================================================================
-  if (SO2 < 0) 
-    SO2 = 0;
-  if (VOC < 0) 
-    VOC = 0;
-  if (NOx < 0) 
-    NOx = 0;
+  if (G1 < 0) 
+    G1 = 0;
+  if (G2 < 0) 
+    G2 = 0;
+  if (G3 < 0) 
+    G3 = 0;
 
 //========== contas ==========================================================================================================================
   
-//========== SO2 conta ==========
+//========== G1 conta ==========
   adc0.setMultiplexer(ADS1115_MUX_P0_NG);
   adc0.getConversion();
   adc0.setRate(ADS1115_RATE_8);
-  convSO2 = adc0.getMilliVolts();
+  convG1 = adc0.getMilliVolts();
 
-contaSO2 = ((( convSO2 - zeroVoltsSO2 ) * ( valmaxSO2 - valminSO2 )) / ( maxVoltsSO2 - zeroVoltsSO2 )) + valminSO2 ;
+contaG1 = ((( convG1 - zeroVoltsG1 ) * ( valmaxG1 - valminG1 )) / ( maxVoltsG1 - zeroVoltsG1 )) + valminG1 ;
  
-  if (contaSO2 <= 0.0)
-    indicaSO2 = 0.0;
-  else if (contaSO2 >= 99.9)
-    indicaSO2 = 99.9;
+  if (contaG1 <= 0.0)
+    indicaG1 = 0.0;
+  else if (contaG1 >= 99.9)
+    indicaG1 = 99.9;
   else
-    indicaSO2 = contaSO2;
+    indicaG1 = contaG1;
 
-//========== VOC conta ==========
-
-  adc0.setMultiplexer(ADS1115_MUX_P0_NG);
-  adc0.getConversion();
-  adc0.setRate(ADS1115_RATE_8);
-  convVOC = adc0.getMilliVolts();
-
-  contaVOC = ((( convVOC - zeroVoltsVOC ) * ( valmaxVOC - valminVOC )) / ( maxVoltsVOC - zeroVoltsVOC )) + valminVOC ;
- 
-  if (contaVOC <= 0.0)
-    indicaVOC = 0.0;
-  else if (contaVOC >= 99.9)
-    indicaVOC = 99.9;
-  else
-    indicaVOC = contaVOC;
-
-//========== NOx conta ==========
+//========== G2 conta ==========
 
   adc0.setMultiplexer(ADS1115_MUX_P0_NG);
   adc0.getConversion();
   adc0.setRate(ADS1115_RATE_8);
-  convNOx = adc0.getMilliVolts();
+  convG2 = adc0.getMilliVolts();
 
-  contaNOx = ((( convNOx - zeroVoltsNOx ) * ( valmaxNOx - valminNOx )) / ( maxVoltsNOx - zeroVoltsNOx )) + valminNOx ;
+  contaG2 = ((( convG2 - zeroVoltsG2 ) * ( valmaxG2 - valminG2 )) / ( maxVoltsG2 - zeroVoltsG2 )) + valminG2 ;
  
-  if (contaNOx <= 0.0)
-    indicaNOx = 0.0;
-  else if (contaNOx >= 99.9)
-    indicaNOx = 99.9;
+  if (contaG2 <= 0.0)
+    indicaG2 = 0.0;
+  else if (contaG2 >= 99.9)
+    indicaG2 = 99.9;
   else
-    indicaNOx = contaNOx;
+    indicaG2 = contaG2;
+
+//========== G3 conta ==========
+
+  adc0.setMultiplexer(ADS1115_MUX_P0_NG);
+  adc0.getConversion();
+  adc0.setRate(ADS1115_RATE_8);
+  convG3 = adc0.getMilliVolts();
+
+  contaG3 = ((( convG3 - zeroVoltsG3 ) * ( valmaxG3 - valminG3 )) / ( maxVoltsG3 - zeroVoltsG3 )) + valminG3 ;
+ 
+  if (contaG3 <= 0.0)
+    indicaG3 = 0.0;
+  else if (contaG3 >= 99.9)
+    indicaG3 = 99.9;
+  else
+    indicaG3 = contaG3;
     
-  Serial.print("ValorSO2 = ")  ; Serial.println(convSO2)  ;
-  Serial.print("contaSO2 = ")  ; Serial.println(contaSO2) ;
-  Serial.print("IndicaSO2 = ") ; Serial.println(indicaSO2);
+  Serial.print("ValorG1 = ")  ; Serial.println(convG1)  ;
+  Serial.print("contaG1 = ")  ; Serial.println(contaG1) ;
+  Serial.print("IndicaG1 = ") ; Serial.println(indicaG1);
   Serial.println();
   Serial.println();
 
-  Serial.print("ValorVOC = ")  ; Serial.println(convVOC)  ;
-  Serial.print("contaVOC = ")  ; Serial.println(contaVOC) ;
-  Serial.print("IndicaVOC = ") ; Serial.println(indicaVOC);
+  Serial.print("ValorG2 = ")  ; Serial.println(convG2)  ;
+  Serial.print("contaG2 = ")  ; Serial.println(contaG2) ;
+  Serial.print("IndicaG2 = ") ; Serial.println(indicaG2);
   Serial.println();
   Serial.println();
 
-  Serial.print("ValorNOx = ")  ; Serial.println(convNOx)  ;
-  Serial.print("contaNOx = ")  ; Serial.println(contaNOx) ;
-  Serial.print("IndicaNOx = ") ; Serial.println(indicaNOx);
+  Serial.print("ValorG3 = ")  ; Serial.println(convG3)  ;
+  Serial.print("contaG3 = ")  ; Serial.println(contaG3) ;
+  Serial.print("IndicaG3 = ") ; Serial.println(indicaG3);
   Serial.println();
   Serial.println();
   delay (500);
