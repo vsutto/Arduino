@@ -1,4 +1,5 @@
-/* Código desenvolvido para um teclado de calibração, sem tela de confirmação(usado na Assistência Técnica). Display = 128x64
+/* Autor: Victor A. Sutto.
+   Código desenvolvido para um teclado de calibração, sem tela de confirmação(usado na Assistência Técnica). Display = 128x64
    Salva os valores na EEPROM quando apertar o "Enter".
    Os botões "+" e "-" altera o valor de calibração a ser salvo.
    O botão "Menu" altera as telas(Tela cliente, Tela de calibração 1, Tela de calibração 2, Tela de calibração 3 e Tela de calibração 4. (volta a 1ª tela com mais um click)
