@@ -1,3 +1,7 @@
+// Autor: Victor A. Sutto.
+// Código desenvolvido apenas pra no futuro eu lembrar como foi feita a leitura do analógico/digital.
+
+
 #include <U8glib.h>
 U8GLIB_ST7920_128X64_1X u8g(4, 5, 6, 7); //Enable, RW, RS, RESET
 
